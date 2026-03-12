@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Синий перелив + Форма + Поддержка</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #0066ff, #cccccc, #3399ff, #999999);
+            background-size: 300% 300%;
+            animation: move 8s ease infinite;
+            padding: 20px;
+        }
+
+        @keyframes move {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: normal;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: white;
+            margin-bottom: 8px;
+            font-size: 16px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            background: white;
+            color: #333;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group:hover input,
+        .form-group:hover textarea {
+            border-color: #0066ff;
+            box-shadow: 0 0 20px #0066ff;
+            transform: scale(1.02);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .submit-btn {
+            flex: 1;
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            background: #0066ff;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 2px solid transparent;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background: white;
+            color: #0066ff;
+            border-color: #0066ff;
+            box-shadow: 0 0 30px #0066ff;
+            transform: scale(1.05);
+        }
+
+        .support-btn {
+            flex: 1;
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            background: #ff3333;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 2px solid transparent;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .support-btn:hover {
+            background: white;
+            color: #ff3333;
+            border-color: #ff3333;
+            box-shadow: 0 0 30px #ff3333;
+            transform: scale(1.05);
+        }
+
+        .status-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 25px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            display: none;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .success {
+            background: rgba(0, 255, 0, 0.3);
+            display: block;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.3);
+            display: block;
+        }
+
+        .info {
+            margin-top: 20px;
+            color: white;
+            text-align: center;
+            opacity: 0.7;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✦ ФОРМА СВЯЗИ ✦</h1>
+        
+        <form id="my-form">
+            <div class="form-group">
+                <label for="name">Ваше имя:</label>
+                <input type="text" id="name" name="name" placeholder="Введите ваше имя" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Ваш email:</label>
+                <input type="email" id="email" name="email" placeholder="Введите ваш email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Сообщение:</label>
+                <textarea id="message" name="message" placeholder="Введите ваше сообщение" required></textarea>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">Отправить</button>
+                <a href="https://t.me/sventsi" target="_blank" class="support-btn">Поддержка</a>
+            </div>
+        </form>
+
+        <div id="status-message" class="status-message"></div>
+        
+        <div class="info">
+            наведи курсор на поля или кнопки
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('my-form');
+        const statusDiv = document.getElementById('status-message');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            statusDiv.textContent = 'Отправка...';
+            statusDiv.className = 'status-message';
+
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+
+            const discordMessage = {
+                content: 'Новое сообщение с сайта!',
+                embeds: [{
+                    title: 'Данные формы',
+                    color: 3447003,
+                    fields: [
+                        {
+                            name: 'Имя',
+                            value: formData.name,
+                            inline: true
+                        },
+                        {
+                            name: 'Email',
+                            value: formData.email,
+                            inline: true
+                        },
+                        {
+                            name: 'Сообщение',
+                            value: formData.message
+                        }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            try {
+                const response = await fetch('https://discord.com/api/webhooks/1481637388227711146/0yj7c1HAwziyYjADJ1KsRuLJ72mfH8R-dfHziSjZW7S8ICrRNGm_tJjxy6c4X0z7gc7S', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(discordMessage)
+                });
+
+                if (response.ok) {
+                    statusDiv.textContent = 'Сообщение успешно отправлено!';
+                    statusDiv.className = 'status-message success';
+                    form.reset();
+                } else {
+                    throw new Error('Ошибка при отправке');
+                }
+            } catch (error) {
+                statusDiv.textContent = 'Ошибка при отправке. Попробуйте позже.';
+                statusDiv.className = 'status-message error';
+            }
+
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+                statusDiv.className = 'status-message';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
